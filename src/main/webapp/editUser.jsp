@@ -7,7 +7,7 @@
 </head>
 <body>
 <h3>Edit user</h3>
-<form method="post" action="/user/edit">
+<form method="post" action="user/edit">
     <input type="hidden" value="${users.id}" name="id"/>
     <label>Name</label><br>
     <label>

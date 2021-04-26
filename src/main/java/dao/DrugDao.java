@@ -43,11 +43,10 @@ public class DrugDao implements BasicDao<Drug> {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
 
-                    int drugId = resultSet.getInt(1);
-                    String name = resultSet.getString(2);
-                    int cost = resultSet.getInt(3);
-                    int count = resultSet.getInt(4);
-                    Drug drugById = new Drug(drugId, name, cost, count);
+                    drug.setId(resultSet.getInt(1));
+                    drug.setName(resultSet.getString(2));
+                    drug.setCost(resultSet.getInt(3));
+                    drug.setCount(resultSet.getInt(4));
                 }
             }
         } catch (Exception ex) {
@@ -74,7 +73,7 @@ public class DrugDao implements BasicDao<Drug> {
     }
 
 
-@Override
+    @Override
     public Drug updateById(Drug cure) {
         Drug drug = getById(cure.getId());
         try (Connection conn = JDBCConnector.getConnection()) {
@@ -91,7 +90,8 @@ public class DrugDao implements BasicDao<Drug> {
         }
         return drug;
     }
-@Override
+
+    @Override
     public Drug create(Drug cure) {
         try (Connection conn = JDBCConnector.getConnection()) {
             String sql = "insert into drugs (name, cost, count) values (?, ?, ?)";

@@ -14,13 +14,13 @@ import java.io.IOException;
 @WebServlet("/drug/edit")
 
 public class EditDrugServlet extends HttpServlet {
-    BasicDao<Drug> drugDao = new DrugDao();
+   private BasicDao<Drug> drugDao = new DrugDao();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            Drug drug = new DrugDao().getById(id);
+            Drug drug =  drugDao.getById(id);
             if (drug.getId() != 0) {
                 request.setAttribute("drug", drug);
                 getServletContext().getRequestDispatcher("/editDrug.jsp").forward(request, response);
@@ -50,5 +50,6 @@ public class EditDrugServlet extends HttpServlet {
 
             getServletContext().getRequestDispatcher("/notfound.jsp").forward(request, response);
         }
+
     }
 }

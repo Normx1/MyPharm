@@ -7,15 +7,15 @@
 </head>
 <body>
 <h3>Edit drug</h3>
-<form method="post" action="/drug/edit">
+<form method="post" >
     <label>Name</label><br>
-    <input name="name"/>
+    <input name="name" value="${drug.name}"/>
     <br><br>
     <label>Cost</label><br>
-    <input name="cost" />
+    <input name="cost" value="${drug.cost}" />
     <br><br>
     <label>Count</label><br>
-    <input name="count" />
+    <input name="count" value="${drug.count}" />
     <br><br>
     Recipe: <input type="radio" name="recipe" value="1" checked />Yes
     <input type="radio" name="recipe" value="0" checked />No
