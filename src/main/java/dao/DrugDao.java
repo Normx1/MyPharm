@@ -51,7 +51,8 @@ public class DrugDao implements BasicDao<Drug> {
                 }
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return drug;
     }
@@ -66,7 +67,8 @@ public class DrugDao implements BasicDao<Drug> {
                 preparedStatement.execute();
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return drug;
     }
@@ -84,7 +86,8 @@ public class DrugDao implements BasicDao<Drug> {
                 preparedStatement.setInt(4, cure.getId());
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return drug;
     }

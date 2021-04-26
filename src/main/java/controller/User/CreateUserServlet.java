@@ -13,8 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/user/create")
 public class CreateUserServlet extends HttpServlet {
-
-    BasicDao<User> userBasicDao = new UserDao();
+    BasicDao<User> userDao = new UserDao();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,11 +28,10 @@ public class CreateUserServlet extends HttpServlet {
             String name = request.getParameter("name");
             String mail = request.getParameter("mail");
             String password = request.getParameter("password");
-            User users = new User(name,password, mail);
-            userBasicDao.create(users);
-            response.sendRedirect(request.getContextPath() + "/");
+            User users = new User(name, password, mail);
+            userDao.create(users);
+            response.sendRedirect(request.getContextPath() + "/createUser.jsp");
         } catch (Exception ex) {
-
             getServletContext().getRequestDispatcher("/create").forward(request, response);
         }
     }

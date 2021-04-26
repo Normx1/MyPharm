@@ -31,10 +31,9 @@ public class CreateDrugServlet extends HttpServlet {
             int count = Integer.parseInt(request.getParameter("count"));
             Drug drugs = new Drug(name, cost, count);
             drugDao.create(drugs);
-       //     response.sendRedirect(request.getContextPath() + "/");
+            response.sendRedirect(request.getContextPath() + "/createDrug.jsp");
         } catch (Exception ex) {
             getServletContext().getRequestDispatcher("/create").forward(request, response);
-
         }
     }
 }

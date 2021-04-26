@@ -17,7 +17,7 @@ public class UserDao implements BasicDao<User> {
         List<User> userList = new ArrayList<>();
         try (Connection conn = JDBCConnector.getConnection();
              Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery("select * from users");) {
+             ResultSet resultSet = statement.executeQuery("select * from table_name");) {
             //Получем все элементы таблицы
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
@@ -27,7 +27,8 @@ public class UserDao implements BasicDao<User> {
                 userList.add(user);
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return userList;
     }
@@ -36,7 +37,7 @@ public class UserDao implements BasicDao<User> {
     public User getById(int id) {
         User user = new User();
         try (Connection conn = JDBCConnector.getConnection()) {
-            String sql = "select * from users where id=?";
+            String sql = "select * from table_name where id=?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setInt(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -46,11 +47,12 @@ public class UserDao implements BasicDao<User> {
                     String name = resultSet.getString(2);
                     String mail = resultSet.getString(3);
                     String password = resultSet.getString(4);
-                    user = new User(prodId, name, mail, password);
+                    User userById = new User( id, name, mail, password);
                 }
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return user;
     }
@@ -59,13 +61,14 @@ public class UserDao implements BasicDao<User> {
     public User deleteById(int id) {
         User user = getById(id);
         try (Connection conn = JDBCConnector.getConnection()) {
-            String sql = "DELETE FROM users WHERE id = ?";
+            String sql = "DELETE FROM table_name WHERE id = ?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setInt(1, id);
                 preparedStatement.execute();
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return user;
     }
@@ -74,7 +77,7 @@ public class UserDao implements BasicDao<User> {
     public User updateById(User user1) {
         User user = getById(user1.getId());
         try (Connection conn = JDBCConnector.getConnection()) {
-            String sql = "UPDATE users SET nameUser = ?, mailUser = ?, passwordUser = ? WHERE id = ?";
+            String sql = "UPDATE table_name SET name = ?, mail = ?, password = ? WHERE id = ?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, user1.getName());
                 preparedStatement.setString(2, user1.getMail());
@@ -83,7 +86,8 @@ public class UserDao implements BasicDao<User> {
                 preparedStatement.execute();
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return user;
     }
@@ -91,7 +95,7 @@ public class UserDao implements BasicDao<User> {
     @Override
     public User create(User model) {
         try (Connection conn = JDBCConnector.getConnection()) {
-            String sql = "insert into users (nameUser, mailUser, passwordUser) values (?, ?, ?)";
+            String sql = "insert into users.table_name (name, mail, password) values (?, ?, ?)";
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, model.getName());
                 preparedStatement.setString(2, model.getMail());
@@ -99,7 +103,8 @@ public class UserDao implements BasicDao<User> {
                 preparedStatement.execute();
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return model;
     }
